@@ -51,7 +51,7 @@ app:
     app-id: ${FACEBOOK_APP_ID}
     app-secret: ${FACEBOOK_APP_SECRET}
     page-access-token: ${FACEBOOK_PAGE_ACCESS_TOKEN}
-    page-id: ${FACEBOOK_PAGE_I}
+    page-id: ${FACEBOOK_PAGE_ID}
   instagram:
     access-token: ${INSTAGRAM_ACCESS_TOKEN}
     user-id: ${INSTAGRAM_USER_ID}
