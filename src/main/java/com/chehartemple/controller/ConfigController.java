@@ -28,7 +28,7 @@ public class ConfigController {
                 .map(AppConfig::getConfigValue).orElse("");
         // If no manual URL set, fetch latest video from Facebook page
         if (url == null || url.isEmpty()) {
-            url = facebookService.getLatestVideoSource();
+            //url = facebookService.getLatestVideoSource();
         }
         return Map.of("url", url);
     }
