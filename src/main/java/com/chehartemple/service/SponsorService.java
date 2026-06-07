@@ -2,13 +2,13 @@ package com.chehartemple.service;
 
 import com.chehartemple.dto.*;
 import com.chehartemple.model.SponsorMaster.SponsorStatus;
-import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface SponsorService {
-    SponsorResponseDTO createSponsor(SponsorCreateRequestDTO dto, String createdBy);
-    SponsorResponseDTO updateSponsor(Long id, SponsorUpdateRequestDTO dto, String updatedBy);
+    SponsorResponseDTO createSponsor(SponsorCreateRequestDTO dto, MultipartFile mediaFile, MultipartFile thumbnailFile, String createdBy);
+    SponsorResponseDTO updateSponsor(Long id, SponsorUpdateRequestDTO dto, MultipartFile mediaFile, MultipartFile thumbnailFile, String updatedBy);
     void deleteSponsor(Long id);
     SponsorResponseDTO getSponsorById(Long id);
     SponsorListResponseDTO getAllSponsors(int page, int size, String sortBy, String sortDir);

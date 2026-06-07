@@ -4,13 +4,16 @@ import com.chehartemple.dto.*;
 import com.chehartemple.model.SponsorMaster.SponsorStatus;
 import com.chehartemple.model.User;
 import com.chehartemple.service.SponsorService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -23,13 +26,13 @@ import java.util.Map;
 public class SponsorController {
 
     private final SponsorService sponsorService;
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     // ── Public ────────────────────────────────────────────────────────────────
 
     @GetMapping("/active")
     public ResponseEntity<Map<String, Object>> getActiveSponsors() {
-        List<SponsorResponseDTO> sponsors = sponsorService.getActiveSponsors();
-        return ok("Active sponsors fetched", sponsors);
+        return ok("Active sponsors fetched", sponsorService.getActiveSponsors());
     }
 
     @PostMapping("/{id}/click")
@@ -40,24 +43,45 @@ public class SponsorController {
 
     // ── Admin ─────────────────────────────────────────────────────────────────
 
-    @PostMapping("/admin/create")
+    /**
+     * POST /api/sponsors/admin/create
+     * multipart/form-data:
+     *   - data  (JSON string of SponsorCreateRequestDTO)
+     *   - media (required image/video file)
+     *   - thumbnail (optional thumbnail image)
+     */
+    @PostMapping(value = "/admin/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> create(
-            @Valid @RequestBody SponsorCreateRequestDTO dto,
-            Authentication auth) {
-        String user = getEmail(auth);
-        SponsorResponseDTO result = sponsorService.createSponsor(dto, user);
-        return ok("Sponsor created successfully", result);
+            @RequestPart("data") String dataJson,
+            @RequestPart("media") MultipartFile mediaFile,
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnailFile,
+            Authentication auth) throws Exception {
+
+        SponsorCreateRequestDTO dto = objectMapper.readValue(dataJson, SponsorCreateRequestDTO.class);
+        return ok("Sponsor created successfully",
+                sponsorService.createSponsor(dto, mediaFile, thumbnailFile, getEmail(auth)));
     }
 
-    @PutMapping("/admin/update/{id}")
+    /**
+     * PUT /api/sponsors/admin/update/{id}
+     * multipart/form-data:
+     *   - data  (JSON string of SponsorUpdateRequestDTO)
+     *   - media (optional — only if replacing the media file)
+     *   - thumbnail (optional — only if replacing the thumbnail)
+     */
+    @PutMapping(value = "/admin/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> update(
             @PathVariable Long id,
-            @Valid @RequestBody SponsorUpdateRequestDTO dto,
-            Authentication auth) {
-        SponsorResponseDTO result = sponsorService.updateSponsor(id, dto, getEmail(auth));
-        return ok("Sponsor updated successfully", result);
+            @RequestPart("data") String dataJson,
+            @RequestPart(value = "media", required = false) MultipartFile mediaFile,
+            @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnailFile,
+            Authentication auth) throws Exception {
+
+        SponsorUpdateRequestDTO dto = objectMapper.readValue(dataJson, SponsorUpdateRequestDTO.class);
+        return ok("Sponsor updated successfully",
+                sponsorService.updateSponsor(id, dto, mediaFile, thumbnailFile, getEmail(auth)));
     }
 
     @DeleteMapping("/admin/delete/{id}")

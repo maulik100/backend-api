@@ -12,8 +12,8 @@ public class SponsorPreviewDTO {
     private String title;
     private String description;
     private MediaType mediaType;
-    private String mediaPreviewUrl;
-    private String thumbnailPreviewUrl;
+    private String mediaUrl;
+    private String thumbnailUrl;
     private String redirectUrl;
     private SponsorStatus sponsorStatus;
 }

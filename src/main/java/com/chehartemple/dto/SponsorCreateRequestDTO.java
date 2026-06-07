@@ -21,11 +21,6 @@ public class SponsorCreateRequestDTO {
     @NotNull(message = "Media type is required")
     private MediaType mediaType;
 
-    @NotBlank(message = "Media link is required")
-    private String mediaLink;
-
-    private String thumbnailLink;
-
     @NotNull(message = "Start date/time is required")
     private LocalDateTime displayStartDateTime;
 
@@ -33,12 +28,8 @@ public class SponsorCreateRequestDTO {
     private LocalDateTime displayEndDateTime;
 
     private SponsorStatus sponsorStatus = SponsorStatus.UPCOMING;
-
     private Integer priorityOrder = 0;
-
     private String redirectUrl;
-
     private Integer displaySequence = 0;
-
     private String remarks;
 }

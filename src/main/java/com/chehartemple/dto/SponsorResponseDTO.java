@@ -16,10 +16,10 @@ public class SponsorResponseDTO {
     private String title;
     private String description;
     private MediaType mediaType;
-    private String mediaLink;
-    private String mediaPreviewUrl;   // converted Google Drive preview URL
-    private String thumbnailLink;
-    private String thumbnailPreviewUrl;
+    private String mediaPath;       // relative path stored in DB  e.g. sponsors/uuid.jpg
+    private String mediaUrl;        // full serve URL              e.g. /api/files/sponsors/uuid.jpg
+    private String thumbnailPath;
+    private String thumbnailUrl;
     private LocalDateTime displayStartDateTime;
     private LocalDateTime displayEndDateTime;
     private SponsorStatus sponsorStatus;
@@ -33,16 +33,16 @@ public class SponsorResponseDTO {
     private LocalDateTime updatedAt;
     private String remarks;
 
-    public static SponsorResponseDTO from(SponsorMaster s, String previewUrl, String thumbPreviewUrl) {
+    public static SponsorResponseDTO from(SponsorMaster s) {
         return SponsorResponseDTO.builder()
                 .id(s.getId())
                 .title(s.getTitle())
                 .description(s.getDescription())
                 .mediaType(s.getMediaType())
-                .mediaLink(s.getMediaLink())
-                .mediaPreviewUrl(previewUrl)
-                .thumbnailLink(s.getThumbnailLink())
-                .thumbnailPreviewUrl(thumbPreviewUrl)
+                .mediaPath(s.getMediaLink())
+                .mediaUrl(toFileUrl(s.getMediaLink()))
+                .thumbnailPath(s.getThumbnailLink())
+                .thumbnailUrl(toFileUrl(s.getThumbnailLink()))
                 .displayStartDateTime(s.getDisplayStartDateTime())
                 .displayEndDateTime(s.getDisplayEndDateTime())
                 .sponsorStatus(s.getSponsorStatus())
@@ -56,5 +56,10 @@ public class SponsorResponseDTO {
                 .updatedAt(s.getUpdatedAt())
                 .remarks(s.getRemarks())
                 .build();
+    }
+
+    private static String toFileUrl(String path) {
+        if (path == null || path.isBlank()) return null;
+        return "/api/files/" + path;
     }
 }

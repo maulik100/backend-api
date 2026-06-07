@@ -1,0 +1,25 @@
+# Maven build output
+target/
+
+# IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Environment and secrets — NEVER commit these
+*.env
+application-prod.yml
+application-local.yml
+
+# Google Service Account key — contains private key, must never be committed
+src/main/resources/credentials.json
+
+# Uploaded media files — stored on server, not in git
+src/main/resources/uploads/sponsors/
+!src/main/resources/uploads/sponsors/.gitkeep
+
+# Logs
+*.log
+logs/

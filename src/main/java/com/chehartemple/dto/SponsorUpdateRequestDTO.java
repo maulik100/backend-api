@@ -14,24 +14,12 @@ public class SponsorUpdateRequestDTO {
     private String title;
 
     private String description;
-
     private MediaType mediaType;
-
-    private String mediaLink;
-
-    private String thumbnailLink;
-
     private LocalDateTime displayStartDateTime;
-
     private LocalDateTime displayEndDateTime;
-
     private SponsorStatus sponsorStatus;
-
     private Integer priorityOrder;
-
     private String redirectUrl;
-
     private Integer displaySequence;
-
     private String remarks;
 }

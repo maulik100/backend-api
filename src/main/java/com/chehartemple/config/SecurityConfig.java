@@ -52,7 +52,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/events/**", "/api/temple-timings", "/api/live-stream", "/api/config/**", "/api/news", "/api/gallery", "/api/gallery/**", "/api/facebook/**", "/api/instagram/media/**", "/api/instagram/images", "/api/sponsors/active").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/events/**", "/api/temple-timings", "/api/live-stream", "/api/config/**", "/api/news", "/api/gallery", "/api/gallery/**", "/api/facebook/**", "/api/instagram/media/**", "/api/instagram/images", "/api/sponsors/active", "/api/files/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/sponsors/*/click").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
