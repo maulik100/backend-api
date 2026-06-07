@@ -7,15 +7,15 @@ public final class GoogleDriveMediaUtil {
 
     // Matches: /file/d/FILE_ID, open?id=FILE_ID, uc?id=FILE_ID, uc?export=...&id=FILE_ID
     private static final Pattern FILE_ID_PATTERN = Pattern.compile(
-            "drive\.google\.com/file/d/([a-zA-Z0-9_-]{10,})"
-            + "|drive\.google\.com/open\\?id=([a-zA-Z0-9_-]{10,})"
-            + "|drive\.google\.com/uc\\?(?:[^&]*&)*id=([a-zA-Z0-9_-]{10,})"
-            + "|docs\.google\.com/uc\\?(?:[^&]*&)*id=([a-zA-Z0-9_-]{10,})"
+            "drive\\.google\\.com/file/d/([a-zA-Z0-9_-]{10,})"
+            + "|drive\\.google\\.com/open\\?id=([a-zA-Z0-9_-]{10,})"
+            + "|drive\\.google\\.com/uc\\?(?:[^&]*&)*id=([a-zA-Z0-9_-]{10,})"
+            + "|docs\\.google\\.com/uc\\?(?:[^&]*&)*id=([a-zA-Z0-9_-]{10,})"
     );
 
     // Matches: /drive/folders/FOLDER_ID  or  /drive/folders/FOLDER_ID?...
     private static final Pattern FOLDER_ID_PATTERN = Pattern.compile(
-            "drive\.google\.com/drive/folders/([a-zA-Z0-9_-]{10,})"
+            "drive\\.google\\.com/drive/folders/([a-zA-Z0-9_-]{10,})"
     );
 
     private GoogleDriveMediaUtil() {}
